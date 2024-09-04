@@ -1,48 +1,48 @@
 import serial
 import time
 
-# Configure the serial port (COM5 in this case)
+
 ser = serial.Serial('COM5', 9600, timeout=1)
 
 def send_data_to_microcontroller(data, data_type):
     if data_type == 'int8':
-        ser.write(b'I')  # Send the type indicator for 8-bit integer
-        ser.write(bytes([data]))  # Send the 8-bit integer data as a single byte
-        time.sleep(0.5)  # Wait for 500ms
-        received_data = ser.readline().decode().strip()  # Read the modified data from Arduino
+        ser.write(b'I')  
+        ser.write(bytes([data]))  
+        time.sleep(0.5)  
+        received_data = ser.readline().decode().strip()  
         if received_data:
             print(f"Modified data received from microcontroller: {received_data}")
     
     elif data_type == 'int16':
-        ser.write(b'L')  # Send the type indicator for 16-bit integer
-        ser.write(data.to_bytes(2, byteorder='little'))  # Send the 16-bit integer as two bytes
-        time.sleep(0.5)  # Wait for 500ms
-        received_data = ser.readline().decode().strip()  # Read the echoed 16-bit integer from Arduino
+        ser.write(b'L')  
+        ser.write(data.to_bytes(2, byteorder='little'))  
+        time.sleep(0.5)  
+        received_data = ser.readline().decode().strip()  
         if received_data:
             print(f"16-bit integer received from microcontroller: {received_data}")
 
     elif data_type == 'char':
-        ser.write(b'C')  # Send the type indicator for character
-        ser.write(data.encode())  # Send the character data
-        time.sleep(0.5)  # Wait for 500ms
-        received_data = ser.readline().decode().strip()  # Read the echo data from Arduino
+        ser.write(b'C')  
+        ser.write(data.encode())  
+        time.sleep(0.5)  
+        received_data = ser.readline().decode().strip()  
         if received_data:
             print(f"Character received from microcontroller: {received_data}")
 
     elif data_type == 'string':
-        ser.write(b'S')  # Send the type indicator for string
-        ser.write(data.encode())  # Send the string data
-        time.sleep(0.5)  # Wait for 500ms
-        received_data = ser.readline().decode().strip()  # Read the echo data from Arduino
+        ser.write(b'S')  
+        ser.write(data.encode())  
+        time.sleep(0.5)  
+        received_data = ser.readline().decode().strip()  
         if received_data:
             print(f"String received from microcontroller: {received_data}")
 
     elif data_type == 'array':
-        ser.write(b'A')  # Send the type indicator for array
+        ser.write(b'A')  
         for num in data:
-            ser.write(bytes([num]))  # Send each integer in the array as a byte
-        time.sleep(0.5)  # Wait for 500ms
-        received_data = ser.readline().decode().strip()  # Read the echoed array from Arduino
+            ser.write(bytes([num]))  
+        time.sleep(0.5)  
+        received_data = ser.readline().decode().strip()  
         if received_data:
             print(f"Array received from microcontroller: {received_data}")
 
