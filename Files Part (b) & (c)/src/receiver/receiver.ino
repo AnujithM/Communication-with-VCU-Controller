@@ -8,8 +8,8 @@ std_msgs::Int32MultiArray received_msg;
 ros::Publisher pub("received_data", &received_msg);
 
 void messageCb(const std_msgs::Int32MultiArray& msg) {
-    received_msg = msg;  // Copy the received message
-    pub.publish(&received_msg);  // Publish it back to ROS
+    received_msg = msg;  
+    pub.publish(&received_msg);  
 }
 
 ros::Subscriber<std_msgs::Int32MultiArray> sub("vehicle_data", messageCb);
