@@ -6,7 +6,7 @@ from std_msgs.msg import Int32MultiArray
 original_data = [101, 102, 103, 104, 105, 106, 107, 108]
 
 
-fixed_checksum = sum(original_data) % 256  # This is 68 for the original data
+fixed_checksum = sum(original_data) % 256  
 
 def publish_data():
     rospy.init_node('vehicle_data_publisher', anonymous=True)
