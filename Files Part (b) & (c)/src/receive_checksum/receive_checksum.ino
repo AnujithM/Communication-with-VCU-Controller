@@ -4,50 +4,50 @@
 
 ros::NodeHandle nh;
 
-// Publisher for received data with error status
+
 std_msgs::String received_data_msg;
 ros::Publisher pub_received_data("received_data", &received_data_msg);
 
-// Function to calculate checksum based on the data
+
 int calculate_checksum(const std_msgs::Int32MultiArray& msg) {
     int calculated_checksum = 0;
-    for (int i = 0; i < 8; i++) {  // Sum the 8 data bytes (indexes 0 to 7)
+    for (int i = 0; i < 8; i++) {  
         calculated_checksum += msg.data[i];
     }
-    return calculated_checksum % 256;  // Apply modulo 256
+    return calculated_checksum % 256;  
 }
 
-// Function to detect if the data is jumbled by checking the pairwise differences
+
 bool detect_jumbled_data(const std_msgs::Int32MultiArray& msg) {
-    // Check if the differences between consecutive elements are not equal to 1
-    for (int i = 0; i < 7; i++) {  // Iterate over the first 7 data points (indexes 0 to 6)
+    
+    for (int i = 0; i < 7; i++) {  
         if ((msg.data[i + 1] - msg.data[i]) != 1) {
-            return true;  // Jumbled if the difference is not consistent (not 1)
+            return true;  
         }
     }
-    return false;  // No jumble detected
+    return false;  
 }
 
-// Callback function for receiving data
-void messageCb(const std_msgs::Int32MultiArray& msg) {
-    int received_checksum = msg.data[8];  // The checksum is at index 8 (last element)
-    int calculated_checksum = calculate_checksum(msg);  // Recalculate the checksum from data
 
-    char status_message[100];  // Buffer size for the message
+void messageCb(const std_msgs::Int32MultiArray& msg) {
+    int received_checksum = msg.data[8];  
+    int calculated_checksum = calculate_checksum(msg); 
+
+    char status_message[100];  
     bool checksum_error = false;
     bool jumbled_error = false;
 
-    // Check for checksum mismatch
+    
     if (calculated_checksum != received_checksum) {
         checksum_error = true;
     }
 
-    // Check for jumbled data using pairwise difference consistency
+    
     if (detect_jumbled_data(msg)) {
         jumbled_error = true;
     }
 
-    // Create the appropriate error message
+    
     if (checksum_error && jumbled_error) {
         snprintf(status_message, sizeof(status_message), "Checksum Mismatch and Jumbled Data Detected");
     } else if (checksum_error) {
@@ -58,7 +58,7 @@ void messageCb(const std_msgs::Int32MultiArray& msg) {
         snprintf(status_message, sizeof(status_message), "Data OK");
     }
 
-    // Publish the error or status message
+    
     received_data_msg.data = status_message;
     pub_received_data.publish(&received_data_msg);
 }
