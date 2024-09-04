@@ -1,83 +1,83 @@
-int ledPin = 13;  // Pin for the built-in LED (Usually pin 13 on most Arduino boards)
+int ledPin = 13;  
 char dataType = ' ';
 String receivedString = "";
 
 void setup() {
-  Serial.begin(9600);  // Initialize UART with 9600 baud rate
-  pinMode(ledPin, OUTPUT);  // Set the LED pin as an output
+  Serial.begin(9600);  
+  pinMode(ledPin, OUTPUT);  
 }
 
 void loop() {
   if (Serial.available() > 0) {
-    dataType = Serial.read();  // Read the data type indicator ('I', 'L', 'C', 'S', or 'A')
+    dataType = Serial.read();  
 
-    if (dataType == 'I') {  // Indicates that the following data is an 8-bit integer
-      while (Serial.available() <= 0);  // Wait until the actual data arrives
-      int receivedData = Serial.read();  // Read the 8-bit integer data
+    if (dataType == 'I') {  
+      while (Serial.available() <= 0);  
+      int receivedData = Serial.read();  
 
-      // Process the 8-bit integer
+      
       if (receivedData >= 0 && receivedData <= 255) {
         if (receivedData > 50) {
-          digitalWrite(ledPin, HIGH);  // Turn on the LED
+          digitalWrite(ledPin, HIGH);  
         } else {
-          digitalWrite(ledPin, LOW);  // Turn off the LED
+          digitalWrite(ledPin, LOW);  
         }
 
-        int modifiedData = receivedData + 10;  // Modify the data (e.g., add 10)
-        Serial.println(modifiedData);  // Send the modified data back to the PC
+        int modifiedData = receivedData + 10;  
+        Serial.println(modifiedData);  
       }
 
-    } else if (dataType == 'L') {  // Indicates that the following data is a 16-bit integer
-      while (Serial.available() < 2);  // Wait until the full 16-bit integer data arrives
-      unsigned int lowByte = Serial.read();  // Read the low byte
-      unsigned int highByte = Serial.read();  // Read the high byte
-      unsigned int receivedData = (highByte << 8) | lowByte;  // Combine the two bytes into a 16-bit unsigned integer
+    } else if (dataType == 'L') {  
+      while (Serial.available() < 2);  
+      unsigned int lowByte = Serial.read();  
+      unsigned int highByte = Serial.read();  
+      unsigned int receivedData = (highByte << 8) | lowByte;  
 
-      // Echo the 16-bit integer back to the PC
+      
       Serial.println(receivedData);
 
-    } else if (dataType == 'C') {  // Indicates that the following data is a character
-      while (Serial.available() <= 0);  // Wait until the actual data arrives
-      char receivedChar = Serial.read();  // Read the character data
+    } else if (dataType == 'C') {  
+      while (Serial.available() <= 0); 
+      char receivedChar = Serial.read();  
 
-      // Echo the character back to the PC
+      
       Serial.println(receivedChar);
 
-    } else if (dataType == 'S') {  // Indicates that the following data is a string
-      receivedString = "";  // Clear the previous string
+    } else if (dataType == 'S') {  
+      receivedString = "";  
 
-      // Wait a bit to ensure the full string has been received
+      
       delay(100);
 
-      // Read the incoming string
+      
       while (Serial.available() > 0) {
         char c = Serial.read();
         receivedString += c;
-        delay(5);  // Small delay to allow all characters to be read
+        delay(5);  
       }
 
-      // Echo the string back with a custom message
+      
       Serial.print("I heard \"");
       Serial.print(receivedString);
       Serial.println("\"");
 
-    } else if (dataType == 'A') {  // Indicates that the following data is an array
-      String receivedArray = "";  // Initialize a string to store the received array
+    } else if (dataType == 'A') {  
+      String receivedArray = "";  
 
-      // Wait for array elements to arrive
+     
       delay(100);
 
-      // Read each byte in the array and append it to the string
+      
       while (Serial.available() > 0) {
         int arrayElement = Serial.read();
         receivedArray += String(arrayElement) + " ";
-        delay(5);  // Small delay to ensure all elements are read
+        delay(5); 
       }
 
-      // Trim any trailing spaces from the string
+      
       receivedArray.trim();
 
-      // Echo the array back as a string with the same order
+      
       Serial.print("Array received: ");
       Serial.println(receivedArray);
     }
