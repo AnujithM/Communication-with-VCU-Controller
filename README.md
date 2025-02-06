@@ -20,3 +20,11 @@ The data that the PC is sending to the microcontroller should work for different
 Write a Python or C++ Script (running on PC) to send the serial data. Data of each type can be sent at a time, or can be sent all at once to display on the microcontroller end. The varying data must be sent at a rate of **500ms** from the PC.
 
 > **Note:** In **Task ‘3(D)’ (Array of Integers)**, the order in which data is sent must be preserved and maintained in the same sequence on the microcontroller side.
+
+# Part (b): Integrating with ROS
+
+Now that we are able to communicate with the PC using a personalized script, the next task is to integrate the microcontroller with ROS to send the data from a ROS node to the microcontroller via UART. This would then be used by the control algorithm built by your colleague running on the same MCU.  
+
+You have the option to use **ROS Serial** or **PySerial** or **C++ Serial** for this task.
+
+Create a ROS node that publishes the random data structured in the following fashion at a rate of 100ms.
