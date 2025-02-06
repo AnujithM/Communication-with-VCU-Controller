@@ -28,3 +28,21 @@ Now that we are able to communicate with the PC using a personalized script, the
 You have the option to use **ROS Serial** or **PySerial** or **C++ Serial** for this task.
 
 Create a ROS node that publishes the random data structured in the following fashion at a rate of 100ms.
+### **Array of 8 Integers of 8-bit size:**
+
+| X Position of Vehicle | Y Position of Vehicle | X Linear vel of Vehicle | Y Linear vel of Vehicle | X Angular vel of Vehicle | Y Angular vel of Vehicle | Random Number (Saved for future use) | Random Number (Saved for future use) |
+|-----------------------|----------------------|-------------------------|-------------------------|--------------------------|--------------------------|--------------------------------------|--------------------------------------|
+
+**Figure 2: Communication Frame Format**
+
+Write firmware for the microcontroller to either subscribe to the ROS topics or use UART directly and receive the data.  
+Display the received data as an array of integers, display each integer sequentially on the external display, or on a second serial port or a debugger window.
+
+---
+
+# Part (c): Solving the Jumble (Optional)
+
+While stress testing your algorithm, you realized that there is a need to ensure robustness in the process as the numbers in the array were getting jumbled. You observed that the order of the integers is changing, and some bytes are getting missed occasionally.  
+
+For example, the **X Angular Velocity** of the vehicle is found in the **3rd byte**, and the **Y Linear Velocity** in the **4th byte**. To rectify this, you decide to implement a **feedback mechanism** where the microcontroller sends an acknowledgment back to the ROS node after it successfully receives and processes the data. The acknowledgment signal could be derived from the processed data.
+
