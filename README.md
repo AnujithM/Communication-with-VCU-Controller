@@ -40,9 +40,15 @@ Display the received data as an array of integers, display each integer sequenti
 
 ---
 
-# Part (c): Solving the Jumble (Optional)
+# Part (c): Solving the Jumble
 
 While stress testing your algorithm, you realized that there is a need to ensure robustness in the process as the numbers in the array were getting jumbled. You observed that the order of the integers is changing, and some bytes are getting missed occasionally.  
 
 For example, the **X Angular Velocity** of the vehicle is found in the **3rd byte**, and the **Y Linear Velocity** in the **4th byte**. To rectify this, you decide to implement a **feedback mechanism** where the microcontroller sends an acknowledgment back to the ROS node after it successfully receives and processes the data. The acknowledgment signal could be derived from the processed data.
+
+
+You need to come up with a way to fix this problem. You can **discard certain frames** but **cannot provide bad data** to the control algorithm built by your colleague.  
+
+You are allowed to **change the number of bytes and make them 10 bytes instead of 8 bytes**, it’s up to you. You design your own frame format to send the data via UART. Requirements are that **data should not be misaligned or miss certain data** in the frame.
+
 
