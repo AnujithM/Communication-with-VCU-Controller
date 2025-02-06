@@ -1,1 +1,22 @@
-# Communication-with-VCU-Controller
+# Part (a): Establishing communication from PC to Microcontroller
+
+You need to send data from the PC to the microcontroller via UART and show the output in any of the following ways:
+
+- Display the change of variables in a watch window in a debugger (if available for the microcontroller you possess).
+- Use a built-in LED / external LED / external display (e.g., LCD 16x2 display) to show the data received from the computer (e.g., if data > 50, glow LED 1).
+- If none of the above is possible, read the data via UART and send it back to the PC with some modifications (e.g., if 50 is received, send the data back to the PC after adding 10 to it).
+
+---
+### Data Types
+The data that the PC is sending to the microcontroller should work for different **types of data** as shown below:
+
+- **(A)** Int of size 8 bits (e.g., `128, 255`)
+- **(B)** Char (e.g., `'A'`, `'Z'`)
+- **(C)** String (e.g., `"Hi there, welcome to AIRL!!!"`)
+- **(D)** Array of Integers (e.g., `[100, 60, 123, 30]`)
+- **(E)** Int of size 16 bits (e.g., `30212, 723, 9393`)
+
+### Implementation
+Write a Python or C++ Script (running on PC) to send the serial data. Data of each type can be sent at a time, or can be sent all at once to display on the microcontroller end. The varying data must be sent at a rate of **500ms** from the PC.
+
+> **Note:** In **Task ‘3(D)’ (Array of Integers)**, the order in which data is sent must be preserved and maintained in the same sequence on the microcontroller side.
